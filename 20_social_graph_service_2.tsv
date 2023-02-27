@@ -1,0 +1,11 @@
+nginx-web-server	/wrk2-api/user/follow	nginx-web-server
+nginx-web-server	Follow	nginx-web-server
+user-service	user_mmc_get_user_id_client	user-service
+user-service	get_user_id_server	social-graph-service
+user-service	user_mmc_get_user_id_client	user-service
+user-service	get_user_id_server	social-graph-service
+social-graph-service	mongo_update_client	social-graph-service
+social-graph-service	social_graph_redis_update_client	social-graph-service
+social-graph-service	social_graph_mongo_update_client	social-graph-service
+social-graph-service	follow_server	social-graph-service
+social-graph-service	follow_with_username_server	nginx-web-server
