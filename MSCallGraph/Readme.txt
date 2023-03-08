@@ -1,0 +1,1 @@
+In this folder there is the reduced dataset obtained my removing all columns but traceid, um, dm, rpctype
