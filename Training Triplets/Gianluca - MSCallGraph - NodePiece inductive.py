@@ -7,7 +7,6 @@
 from pykeen.pipeline import pipeline
 from pykeen.datasets import Nations, get_dataset
 import torch
-from pykeen.models import predict
 from pykeen.evaluation import evaluate, RankBasedEvaluator
 from pykeen.metrics.ranking import HitsAtK
 import pandas as pd
