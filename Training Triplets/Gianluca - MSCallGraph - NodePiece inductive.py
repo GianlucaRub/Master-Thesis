@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[21]:
 
 
 from pykeen.pipeline import pipeline
@@ -39,6 +39,20 @@ from pykeen.hpo import hpo_pipeline
 from pykeen.triples import TriplesFactory
 from pykeen.models import InductiveNodePiece
 from pykeen.typing import TESTING, TRAINING, VALIDATION
+
+import time
+
+import platform
+
+import sys
+
+import cpuinfo
+
+import psutil
+
+import subprocess
+
+import zipfile
 
 seed = 1234
 
@@ -79,10 +93,12 @@ class InductiveLPDataset(DisjointInductivePathDataset):
 # In[3]:
 
 
-def show_metrics(dictionary):
+def show_metrics(dictionary,model_name,csv_name):
     for key in dictionary.keys():
         print(key)
-        print(pd.DataFrame(dictionary[key]))
+        df = pd.DataFrame(dictionary[key])
+        df.to_csv(f"{model_name}/{model_name}_{csv_name}_{key}.csv")
+        print(df)
 
 
 # In[4]:
@@ -94,14 +110,21 @@ dataset = InductiveLPDataset()
 # In[5]:
 
 
+tracker = ConsoleResultTracker()
+
+
+# In[6]:
+
+
 loss = NSSALoss() #used by RotatE and NodePiece
 num_tokens = 20
 embedding_dim = 200
 
 
-# In[31]:
+# In[7]:
 
 
+model_name = 'nodepiece_inductive'
 model = InductiveNodePiece(
         triples_factory=dataset.transductive_training,
         inference_factory=dataset.inductive_inference,
@@ -114,16 +137,28 @@ print(f"Number of parameters: {sum(p.numel() for p in model.parameters())}")
 print(f"Space occupied: {model.num_parameter_bytes} bytes")
 
 
-# In[40]:
+# In[8]:
 
 
-learning_rate = 1e-3
+directory = model_name
+
+if not os.path.exists(directory):
+    os.makedirs(directory)
+    print(f'Directory {directory} created successfully!')
+else:
+    print(f'Directory {directory} already exists.')
+
+
+# In[9]:
+
+
+learning_rate = 1e-4
 optimizer = Adam(params=model.parameters(), lr=learning_rate)
 num_epochs = 200
-patience = 1
+patience = 20
 
 
-# In[41]:
+# In[10]:
 
 
 metrics = ['meanreciprocalrank', HitsAtK(1),
@@ -146,7 +181,7 @@ test_evaluator = RankBasedEvaluator(
     )
 
 
-# In[42]:
+# In[11]:
 
 
 from pykeen.stoppers import EarlyStopper
@@ -165,10 +200,9 @@ stopper = EarlyStopper(
 
 
 
-# In[43]:
+# In[12]:
 
 
-tracker = ConsoleResultTracker()
 # default training regime is negative sampling (SLCWA)
 # you can also use the 1-N regime with the LCWATrainingLoop
 # the LCWA loop does not need negative sampling kwargs, but accepts label_smoothing in the .train() method
@@ -181,10 +215,11 @@ training_loop = SLCWATrainingLoop(
 )
 
 
-# In[44]:
+# In[13]:
 
 
-training_loop.train(
+training_start = time.time()
+train_epoch =  training_loop.train(
         triples_factory=dataset.transductive_training,
         num_epochs=num_epochs,
         callbacks="evaluation",
@@ -198,11 +233,22 @@ training_loop.train(
         stopper = stopper
         
     )
+training_duration = time.time() - training_start
 
 
-# In[ ]:
+# In[14]:
 
 
+print("Train error per epoch:")
+df = pd.DataFrame(train_epoch)
+print(df)
+df.to_csv(f"{model_name}/{model_name}_train_error_per_epoch.csv")
+
+
+# In[15]:
+
+
+training_evaluation_start = time.time()
 # train
 print("Train error")
 show_metrics(train_evaluator.evaluate(
@@ -211,12 +257,14 @@ show_metrics(train_evaluator.evaluate(
         additional_filter_triples=[
         dataset.transductive_training.mapped_triples,
     ]
-    ).to_dict())
+    ).to_dict(),model_name,'train_metrics')
+training_evaluation_duration = time.time() - training_evaluation_start
 
 
-# In[ ]:
+# In[16]:
 
 
+validation_evaluation_start = time.time()
 # validation
 print("Validation error")
 show_metrics(valid_evaluator.evaluate(
@@ -226,12 +274,14 @@ show_metrics(valid_evaluator.evaluate(
             # filtering of other positive triples
             dataset.inductive_inference.mapped_triples
         ],
-    ).to_dict())
+    ).to_dict(),model_name,'validation_metrics')
+validation_evaluation_duration = time.time() - validation_evaluation_start
 
 
-# In[ ]:
+# In[17]:
 
 
+testing_evaluation_start = time.time()
 # result on the test set
 print("Test error")
 show_metrics(test_evaluator.evaluate(
@@ -242,7 +292,69 @@ show_metrics(test_evaluator.evaluate(
             dataset.inductive_inference.mapped_triples,
             dataset.inductive_validation.mapped_triples,
         ],
-    ).to_dict())
+    ).to_dict(),model_name,'test_metrics')
+testing_evaluation_duration = time.time() - testing_evaluation_start
+
+
+# In[18]:
+
+
+infodict = {}
+infodict['device'] = model.device
+infodict['parameters bytes'] = model.num_parameter_bytes
+infodict['number parameters'] = model.num_parameters
+infodict['training duration'] = training_duration
+infodict['training evaluation duration'] = training_evaluation_duration
+infodict['validation evaluation duration'] = validation_evaluation_duration
+infodict['testing evaluation duration'] = testing_evaluation_duration
+infodict["Operating system name"] = platform.system()
+infodict["Operating system version"] = platform.release()
+infodict["Processor architecture"] = platform.machine()
+infodict["Python version"] = sys.version
+infodict["Processor model name"] = cpuinfo.get_cpu_info()['brand_raw']
+infodict['Number cpu cores'] = os.cpu_count()
+infodict["Total physical memory"] = psutil.virtual_memory().total
+
+
+# In[19]:
+
+
+output = subprocess.check_output(['nvidia-smi', '--query-gpu=name', '--format=csv'])
+output = output.decode('utf-8')  # convert byte string to regular string
+
+# split output into rows and remove header row
+rows = output.strip().split('\n')[1:]
+
+# extract GPU names from each row
+gpu_names = []
+for row in rows:
+    name = row.strip()
+    gpu_names.append(name)
+
+infodict['GPU'] = gpu_names[0]
+
+
+# In[20]:
+
+
+info_df = pd.DataFrame(columns=['name','value'], data = infodict.items())
+info_df.to_csv(f"{model_name}/{model_name}_information.csv")
+print(info_df)
+
+
+# In[22]:
+
+
+def zip_folder(folder_path, output_path):
+    with zipfile.ZipFile(output_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        for root, dirs, files in os.walk(folder_path):
+            for file in files:
+                zipf.write(os.path.join(root, file))
+
+folder_path = model_name
+output_path = f'{model_name}.zip'
+
+zip_folder(folder_path, output_path)
 
 
 # In[ ]:
