@@ -184,8 +184,7 @@ training_loop = SLCWATrainingLoop(
 # In[36]:
 
 
-try:
-    training_loop.train(
+training_loop.train(
         triples_factory=dataset.transductive_training,
         num_epochs=num_epochs,
         callbacks="evaluation",
@@ -196,11 +195,9 @@ try:
             frequency=1,
             additional_filter_triples=dataset.inductive_inference.mapped_triples,
         ),
-        stopper = stopper
+#         stopper = stopper
         
     )
-except Exception as e:
-    print(e)
 
 
 # In[ ]:
