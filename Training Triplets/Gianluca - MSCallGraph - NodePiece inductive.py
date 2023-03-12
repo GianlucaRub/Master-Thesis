@@ -114,16 +114,16 @@ print(f"Number of parameters: {sum(p.numel() for p in model.parameters())}")
 print(f"Space occupied: {model.num_parameter_bytes} bytes")
 
 
-# In[32]:
+# In[40]:
 
 
 learning_rate = 1e-3
 optimizer = Adam(params=model.parameters(), lr=learning_rate)
 num_epochs = 200
-patience = 10
+patience = 1
 
 
-# In[33]:
+# In[41]:
 
 
 metrics = ['meanreciprocalrank', HitsAtK(1),
@@ -146,7 +146,7 @@ test_evaluator = RankBasedEvaluator(
     )
 
 
-# In[34]:
+# In[42]:
 
 
 from pykeen.stoppers import EarlyStopper
@@ -159,13 +159,13 @@ stopper = EarlyStopper(
     evaluator = valid_evaluator,
     training_triples_factory = dataset.inductive_inference,
     evaluation_triples_factory = dataset.inductive_validation,
-
+    result_tracker = tracker
 
 )
 
 
 
-# In[35]:
+# In[43]:
 
 
 tracker = ConsoleResultTracker()
@@ -181,7 +181,7 @@ training_loop = SLCWATrainingLoop(
 )
 
 
-# In[36]:
+# In[44]:
 
 
 training_loop.train(
@@ -195,7 +195,7 @@ training_loop.train(
             frequency=1,
             additional_filter_triples=dataset.inductive_inference.mapped_triples,
         ),
-#         stopper = stopper
+        stopper = stopper
         
     )
 
