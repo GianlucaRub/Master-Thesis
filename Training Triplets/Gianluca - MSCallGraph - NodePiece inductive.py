@@ -184,7 +184,8 @@ training_loop = SLCWATrainingLoop(
 # In[36]:
 
 
-training_loop.train(
+try:
+    training_loop.train(
         triples_factory=dataset.transductive_training,
         num_epochs=num_epochs,
         callbacks="evaluation",
@@ -198,6 +199,8 @@ training_loop.train(
         stopper = stopper
         
     )
+except Exception as e:
+    print(e)
 
 
 # In[ ]:
