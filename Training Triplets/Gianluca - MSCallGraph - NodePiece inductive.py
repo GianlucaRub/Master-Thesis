@@ -19,7 +19,7 @@ import click
 import more_click
 import torch
 from pykeen.evaluation import RankBasedEvaluator
-from pykeen.losses import NSSALoss
+from pykeen.losses import NSSALoss,CrossEntropyLoss
 from pykeen.models.inductive import InductiveNodePiece, InductiveNodePieceGNN
 from pykeen.trackers import ConsoleResultTracker, WANDBResultTracker
 from pykeen.training import SLCWATrainingLoop
@@ -94,32 +94,36 @@ dataset = InductiveLPDataset()
 # In[5]:
 
 
-model = InductiveNodePieceGNN(
+loss = NSSALoss() #used by RotatE and NodePiece
+num_tokens = 20
+embedding_dim = 200
+
+
+# In[31]:
+
+
+model = InductiveNodePiece(
         triples_factory=dataset.transductive_training,
         inference_factory=dataset.inductive_inference,
-        random_seed = seed
+        random_seed = seed,
+        loss = loss,
+        num_tokens = num_tokens,
+        embedding_dim = embedding_dim
     ).to(resolve_device())
 print(f"Number of parameters: {sum(p.numel() for p in model.parameters())}")
 print(f"Space occupied: {model.num_parameter_bytes} bytes")
 
 
-# In[6]:
+# In[32]:
 
 
-tracker = ConsoleResultTracker()
-# default training regime is negative sampling (SLCWA)
-# you can also use the 1-N regime with the LCWATrainingLoop
-# the LCWA loop does not need negative sampling kwargs, but accepts label_smoothing in the .train() method
-training_loop = SLCWATrainingLoop(
-        triples_factory=dataset.transductive_training,
-        model=model,
-        mode=TRAINING,  # must be specified for the inductive setup
-        result_tracker=tracker,
-
-    )
+learning_rate = 1e-3
+optimizer = Adam(params=model.parameters(), lr=learning_rate)
+num_epochs = 200
+patience = 10
 
 
-# In[7]:
+# In[33]:
 
 
 metrics = ['meanreciprocalrank', HitsAtK(1),
@@ -142,12 +146,48 @@ test_evaluator = RankBasedEvaluator(
     )
 
 
-# In[8]:
+# In[34]:
+
+
+from pykeen.stoppers import EarlyStopper
+
+stopper = EarlyStopper(
+    model = model,
+    metric='meanreciprocalrank',
+    patience=patience,
+    frequency=1,
+    evaluator = valid_evaluator,
+    training_triples_factory = dataset.inductive_inference,
+    evaluation_triples_factory = dataset.inductive_validation,
+
+
+)
+
+
+
+# In[35]:
+
+
+tracker = ConsoleResultTracker()
+# default training regime is negative sampling (SLCWA)
+# you can also use the 1-N regime with the LCWATrainingLoop
+# the LCWA loop does not need negative sampling kwargs, but accepts label_smoothing in the .train() method
+training_loop = SLCWATrainingLoop(
+        triples_factory=dataset.transductive_training,
+        model=model,
+        mode=TRAINING,  # must be specified for the inductive setup
+        result_tracker=tracker,
+        optimizer=optimizer,
+        automatic_memory_optimization = True
+    )
+
+
+# In[36]:
 
 
 training_loop.train(
         triples_factory=dataset.transductive_training,
-        num_epochs=2,
+        num_epochs=num_epochs,
         callbacks="evaluation",
         callback_kwargs=dict(
             evaluator=valid_evaluator,
@@ -156,14 +196,16 @@ training_loop.train(
             frequency=1,
             additional_filter_triples=dataset.inductive_inference.mapped_triples,
         ),
+        stopper = stopper
         
     )
 
 
-# In[9]:
+# In[ ]:
 
 
 # train
+print("Train error")
 show_metrics(train_evaluator.evaluate(
         model=model,
         mapped_triples=dataset.transductive_training.mapped_triples,
@@ -173,10 +215,11 @@ show_metrics(train_evaluator.evaluate(
     ).to_dict())
 
 
-# In[10]:
+# In[ ]:
 
 
 # validation
+print("Validation error")
 show_metrics(valid_evaluator.evaluate(
         model=model,
         mapped_triples=dataset.inductive_validation.mapped_triples,
@@ -187,10 +230,11 @@ show_metrics(valid_evaluator.evaluate(
     ).to_dict())
 
 
-# In[11]:
+# In[ ]:
 
 
 # result on the test set
+print("Test error")
 show_metrics(test_evaluator.evaluate(
         model=model,
         mapped_triples=dataset.inductive_testing.mapped_triples,
