@@ -4,10 +4,13 @@
 # In[1]:
 
 
+# import networkx as nx
 from pykeen.pipeline import pipeline
 from pykeen.datasets import Nations, get_dataset
+# import matplotlib.pyplot as plt
+# import matplotlib as mpl
 import torch
-from pykeen.models import predict
+# from pykeen.models import predict
 from pykeen.evaluation import evaluate, RankBasedEvaluator
 from pykeen.metrics.ranking import HitsAtK
 import pandas as pd
@@ -27,13 +30,13 @@ def show_metrics(dictionary):
 
 # For transE, and therefore for transductive link prediction, it is necessary that all the entities and relations are present in the train set
 
-# In[27]:
+# In[3]:
 
 
 batch_size = 8
 
 
-# In[7]:
+# In[4]:
 
 
 from pykeen.hpo import hpo_pipeline
@@ -69,14 +72,14 @@ pipeline_result = pipeline(
 pipeline_result.save_to_directory(os.getcwd()+'/MSCallGraph_transE_transductive')
 
 
-# In[8]:
+# In[5]:
 
 
 # result on the test set
 show_metrics(pipeline_result.metric_results.to_dict())
 
 
-# In[9]:
+# In[6]:
 
 
 pipeline_result.plot_losses()
@@ -91,13 +94,13 @@ pipeline_result.plot_losses()
 
 # Pykeen does not allow for a raw evaluation, filtered only.
 
-# In[11]:
+# In[7]:
 
 
 model = pipeline_result.model
 
 
-# In[28]:
+# In[8]:
 
 
 results_training_filtered = evaluate(model=model,mapped_triples=pipeline_result.training.mapped_triples,
@@ -110,7 +113,7 @@ print("Training filtered evaluation")
 show_metrics(results_training_filtered.to_dict())
 
 
-# In[29]:
+# In[9]:
 
 
 results_validation_filtered = evaluate(model=model,mapped_triples=validation.mapped_triples,
@@ -123,7 +126,7 @@ print("Validation filtered evaluation")
 show_metrics(results_validation_filtered.to_dict())
 
 
-# In[30]:
+# In[10]:
 
 
 results_testing_filtered = evaluate(model=model,mapped_triples=testing.mapped_triples,
@@ -139,66 +142,66 @@ show_metrics(results_testing_filtered.to_dict())
 
 # ## Prediction Inspection
 
-# In[ ]:
+# In[11]:
 
 
-model = pipeline_result.model
-# Predict tails and see if they are in the train set
-predicted_tails_df = predict.get_prediction_df(
-    model=model, head_label = "84f9f68ef003a21288fffe8f9a09a5a29b05f4cc4229b8337d1e3c28b6d07923", relation_label="rpc", triples_factory=pipeline_result.training,
-)
+# model = pipeline_result.model
+# # Predict tails and see if they are in the train set
+# predicted_tails_df = predict.get_prediction_df(
+#     model=model, head_label = "84f9f68ef003a21288fffe8f9a09a5a29b05f4cc4229b8337d1e3c28b6d07923", relation_label="rpc", triples_factory=pipeline_result.training,
+# )
 
 
-predicted_tails_df
+# predicted_tails_df
 
 
-# In[ ]:
+# In[12]:
 
 
-model = pipeline_result.model
-# Predict tails and see if they are in the validation set
-predicted_tails_df = predict.get_prediction_df(
-    model=model, head_label = "84f9f68ef003a21288fffe8f9a09a5a29b05f4cc4229b8337d1e3c28b6d07923", relation_label="rpc", triples_factory=validation,
-)
+# model = pipeline_result.model
+# # Predict tails and see if they are in the validation set
+# predicted_tails_df = predict.get_prediction_df(
+#     model=model, head_label = "84f9f68ef003a21288fffe8f9a09a5a29b05f4cc4229b8337d1e3c28b6d07923", relation_label="rpc", triples_factory=validation,
+# )
 
 
-predicted_tails_df
+# predicted_tails_df
 
 
-# In[ ]:
+# In[13]:
 
 
-model = pipeline_result.model
-# Predict tails and see if they are in the test set
-predicted_tails_df = predict.get_prediction_df(
-    model=model, head_label = "84f9f68ef003a21288fffe8f9a09a5a29b05f4cc4229b8337d1e3c28b6d07923", relation_label="rpc", triples_factory=testing,
-)
+# model = pipeline_result.model
+# # Predict tails and see if they are in the test set
+# predicted_tails_df = predict.get_prediction_df(
+#     model=model, head_label = "84f9f68ef003a21288fffe8f9a09a5a29b05f4cc4229b8337d1e3c28b6d07923", relation_label="rpc", triples_factory=testing,
+# )
 
 
-predicted_tails_df
+# predicted_tails_df
 
 
-# In[ ]:
+# In[14]:
 
 
-# Predict relations
-predicted_relations_df = predict.get_prediction_df(
-    model=model, head_label="84f9f68ef003a21288fffe8f9a09a5a29b05f4cc4229b8337d1e3c28b6d07923", tail_label="75e56c8fbb9336eb4dd40f5f609d5344203d374d73fd0b8d2bce19f754070f6a", triples_factory=pipeline_result.training,
-)
-predicted_relations_df
+# # Predict relations
+# predicted_relations_df = predict.get_prediction_df(
+#     model=model, head_label="84f9f68ef003a21288fffe8f9a09a5a29b05f4cc4229b8337d1e3c28b6d07923", tail_label="75e56c8fbb9336eb4dd40f5f609d5344203d374d73fd0b8d2bce19f754070f6a", triples_factory=pipeline_result.training,
+# )
+# predicted_relations_df
 
 
-# In[ ]:
+# In[15]:
 
 
-# Predict heads
-predicted_heads_df = predict.get_prediction_df(
-    model=model, relation_label="rpc", tail_label="75e56c8fbb9336eb4dd40f5f609d5344203d374d73fd0b8d2bce19f754070f6a", triples_factory=pipeline_result.training
-)
-predicted_heads_df
+# # Predict heads
+# predicted_heads_df = predict.get_prediction_df(
+#     model=model, relation_label="rpc", tail_label="75e56c8fbb9336eb4dd40f5f609d5344203d374d73fd0b8d2bce19f754070f6a", triples_factory=pipeline_result.training
+# )
+# predicted_heads_df
 
 
-# In[ ]:
+# In[16]:
 
 
 # # Score all triples (memory intensive)
@@ -206,29 +209,29 @@ predicted_heads_df
 # predictions_df
 
 
-# In[ ]:
+# In[17]:
 
 
-# Score top K triples (computationally expensive)
-top_k_predictions_df = predict.get_all_prediction_df(model, k=10, triples_factory=pipeline_result.training)
-top_k_predictions_df
+# # Score top K triples (computationally expensive)
+# top_k_predictions_df = predict.get_all_prediction_df(model, k=10, triples_factory=pipeline_result.training)
+# top_k_predictions_df
 
 
-# In[ ]:
+# In[18]:
 
 
-# Score a given list of triples
-score_df = predict.predict_triples_df(
-    model=model,
-    triples=[('84f9f68ef003a21288fffe8f9a09a5a29b05f4cc4229b8337d1e3c28b6d07923',
-              'rpc',
-              '75e56c8fbb9336eb4dd40f5f609d5344203d374d73fd0b8d2bce19f754070f6a'),
-             ('01d660afcfadafd587e20ec4c04ddbc7eb0de95643ba0eec5fc1aeb15e341a85',
-              'mc',
-              '4ab265f54516248ee8873be7d6441912456ce17e84f39918e01ddc4210e56da5')],
-    triples_factory=pipeline_result.training,
-)
-score_df
+# # Score a given list of triples
+# score_df = predict.predict_triples_df(
+#     model=model,
+#     triples=[('84f9f68ef003a21288fffe8f9a09a5a29b05f4cc4229b8337d1e3c28b6d07923',
+#               'rpc',
+#               '75e56c8fbb9336eb4dd40f5f609d5344203d374d73fd0b8d2bce19f754070f6a'),
+#              ('01d660afcfadafd587e20ec4c04ddbc7eb0de95643ba0eec5fc1aeb15e341a85',
+#               'mc',
+#               '4ab265f54516248ee8873be7d6441912456ce17e84f39918e01ddc4210e56da5')],
+#     triples_factory=pipeline_result.training,
+# )
+# score_df
 
 
 # In[ ]:
