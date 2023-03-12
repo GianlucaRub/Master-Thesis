@@ -4,11 +4,8 @@
 # In[1]:
 
 
-import networkx as nx
 from pykeen.pipeline import pipeline
 from pykeen.datasets import Nations, get_dataset
-import matplotlib.pyplot as plt
-import matplotlib as mpl
 import torch
 from pykeen.models import predict
 from pykeen.evaluation import evaluate, RankBasedEvaluator
