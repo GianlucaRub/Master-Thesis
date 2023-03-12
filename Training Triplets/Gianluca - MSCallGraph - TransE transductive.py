@@ -82,7 +82,7 @@ show_metrics(pipeline_result.metric_results.to_dict())
 # In[6]:
 
 
-pipeline_result.plot_losses()
+# pipeline_result.plot_losses()
 
 
 # ## Evaluation
