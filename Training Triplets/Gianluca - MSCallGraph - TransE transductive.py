@@ -25,7 +25,7 @@ seed = 1234
 def show_metrics(dictionary):
     for key in dictionary.keys():
         print(key)
-        display(pd.DataFrame(dictionary[key]))
+        print(pd.DataFrame(dictionary[key]))
 
 
 # For transE, and therefore for transductive link prediction, it is necessary that all the entities and relations are present in the train set
