@@ -177,9 +177,8 @@ training_loop = SLCWATrainingLoop(
         model=model,
         mode=TRAINING,  # must be specified for the inductive setup
         result_tracker=tracker,
-        optimizer=optimizer,
-        automatic_memory_optimization = True
-    )
+        optimizer=optimizer
+)
 
 
 # In[36]:
