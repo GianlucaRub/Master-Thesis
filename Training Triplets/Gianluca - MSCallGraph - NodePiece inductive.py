@@ -113,13 +113,13 @@ dataset = InductiveLPDataset()
 model_name = 'nodepiece_inductive'
 
 
-# In[13]:
+# In[6]:
 
 
 tracker = ConsoleResultTracker()
 
 
-# In[ ]:
+# In[7]:
 
 
 loss = NSSALoss() #used by RotatE and NodePiece
@@ -127,7 +127,7 @@ num_tokens = 20
 embedding_dim = 200
 
 
-# In[ ]:
+# In[8]:
 
 
 model = InductiveNodePiece(
@@ -142,7 +142,7 @@ print(f"Number of parameters: {sum(p.numel() for p in model.parameters())}")
 print(f"Space occupied: {model.num_parameter_bytes} bytes")
 
 
-# In[ ]:
+# In[9]:
 
 
 directory = model_name
@@ -154,7 +154,7 @@ else:
     print(f'Directory {directory} already exists.')
 
 
-# In[ ]:
+# In[10]:
 
 
 learning_rate = 1e-3
@@ -163,7 +163,7 @@ num_epochs = 200
 patience = 20
 
 
-# In[ ]:
+# In[11]:
 
 
 metrics = ['meanreciprocalrank', HitsAtK(1),
@@ -186,7 +186,7 @@ test_evaluator = RankBasedEvaluator(
     )
 
 
-# In[ ]:
+# In[12]:
 
 
 from pykeen.stoppers import EarlyStopper
@@ -205,7 +205,7 @@ stopper = EarlyStopper(
 
 
 
-# In[ ]:
+# In[13]:
 
 
 # default training regime is negative sampling (SLCWA)
@@ -220,7 +220,7 @@ training_loop = SLCWATrainingLoop(
 )
 
 
-# In[ ]:
+# In[14]:
 
 
 training_start = time.time()
@@ -241,7 +241,7 @@ train_epoch =  training_loop.train(
 training_duration = time.time() - training_start
 
 
-# In[ ]:
+# In[15]:
 
 
 print("Train error per epoch:")
@@ -250,7 +250,7 @@ print(df)
 df.to_csv(f"{model_name}/{model_name}_train_error_per_epoch.csv")
 
 
-# In[ ]:
+# In[16]:
 
 
 training_evaluation_start = time.time()
@@ -266,7 +266,7 @@ show_metrics(train_evaluator.evaluate(
 training_evaluation_duration = time.time() - training_evaluation_start
 
 
-# In[ ]:
+# In[17]:
 
 
 validation_evaluation_start = time.time()
@@ -283,7 +283,7 @@ show_metrics(valid_evaluator.evaluate(
 validation_evaluation_duration = time.time() - validation_evaluation_start
 
 
-# In[ ]:
+# In[18]:
 
 
 testing_evaluation_start = time.time()
@@ -301,7 +301,7 @@ show_metrics(test_evaluator.evaluate(
 testing_evaluation_duration = time.time() - testing_evaluation_start
 
 
-# In[ ]:
+# In[19]:
 
 
 infodict = {}
@@ -321,7 +321,7 @@ infodict['Number cpu cores'] = os.cpu_count()
 infodict["Total physical memory"] = psutil.virtual_memory().total
 
 
-# In[ ]:
+# In[21]:
 
 
 output = subprocess.check_output(['nvidia-smi', '--query-gpu=name', '--format=csv'])
@@ -339,7 +339,19 @@ for row in rows:
 infodict['GPU'] = gpu_names[0]
 
 
-# In[ ]:
+# In[22]:
+
+
+infodict['loss'] = NSSALoss
+infodict['num_tokens'] = num_tokens
+infodict['embedding_dim'] = embedding_dim
+infodict['learning_rate'] = learning_rate
+infodict['optimizer'] = Adam
+infodict['num_epochs'] = num_epochs
+infodict['patience'] = patience
+
+
+# In[23]:
 
 
 info_df = pd.DataFrame(columns=['name','value'], data = infodict.items())
@@ -347,7 +359,7 @@ info_df.to_csv(f"{model_name}/{model_name}_information.csv")
 print(info_df)
 
 
-# In[ ]:
+# In[24]:
 
 
 def zip_folder(folder_path, output_path):
