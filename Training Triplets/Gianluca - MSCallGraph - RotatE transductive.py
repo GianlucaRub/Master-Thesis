@@ -201,14 +201,14 @@ training_start = time.time()
 train_epoch =  training_loop.train(
         triples_factory=dataset.training,
         num_epochs=num_epochs,
-        callbacks="evaluation",
-        callback_kwargs=dict(
-            evaluator=valid_evaluator,
-            evaluation_triples=dataset.validation.mapped_triples,
-            prefix="validation",
-            frequency=1,
-            additional_filter_triples=dataset.training.mapped_triples,
-        ),
+#         callbacks="evaluation",
+#         callback_kwargs=dict(
+#             evaluator=valid_evaluator,
+#             evaluation_triples=dataset.validation.mapped_triples,
+#             prefix="validation",
+#             frequency=1,
+#             additional_filter_triples=dataset.training.mapped_triples,
+#         ),
         stopper = stopper
         
     )

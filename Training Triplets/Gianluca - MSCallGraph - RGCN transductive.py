@@ -58,7 +58,7 @@ import zipfile
 seed = 1234
 
 
-# In[3]:
+# In[2]:
 
 
 def show_metrics(dictionary,model_name,csv_name):
@@ -69,7 +69,7 @@ def show_metrics(dictionary,model_name,csv_name):
         print(df)
 
 
-# In[4]:
+# In[3]:
 
 
 DATA_TYPE = "_transductive.tsv"
@@ -78,7 +78,7 @@ TEST_PATH = "MSCallGraph_test" + DATA_TYPE
 VALIDATE_PATH = "MSCallGraph_validation" + DATA_TYPE
 
 
-# In[7]:
+# In[4]:
 
 
 dataset = PathDataset(training_path = TRAIN_PATH,
@@ -88,26 +88,26 @@ dataset = PathDataset(training_path = TRAIN_PATH,
                      )
 
 
-# In[8]:
+# In[5]:
 
 
 model_name = 'rgcn_transductive'
 
 
-# In[9]:
+# In[6]:
 
 
 tracker = ConsoleResultTracker()
 
 
-# In[10]:
+# In[7]:
 
 
 loss = NSSALoss() #used by RotatE and NodePiece
 embedding_dim = 200
 
 
-# In[11]:
+# In[8]:
 
 
 model = RGCN(
@@ -132,7 +132,7 @@ else:
     print(f'Directory {directory} already exists.')
 
 
-# In[13]:
+# In[9]:
 
 
 learning_rate = 1e-3
@@ -141,7 +141,7 @@ num_epochs = 2000
 patience = 20
 
 
-# In[14]:
+# In[10]:
 
 
 metrics = ['meanreciprocalrank', HitsAtK(1),
@@ -161,7 +161,7 @@ test_evaluator = RankBasedEvaluator(
     )
 
 
-# In[15]:
+# In[11]:
 
 
 from pykeen.stoppers import EarlyStopper
@@ -180,7 +180,7 @@ stopper = EarlyStopper(
 
 
 
-# In[16]:
+# In[12]:
 
 
 # default training regime is negative sampling (SLCWA)
@@ -194,21 +194,21 @@ training_loop = SLCWATrainingLoop(
 )
 
 
-# In[17]:
+# In[13]:
 
 
 training_start = time.time()
 train_epoch =  training_loop.train(
         triples_factory=dataset.training,
         num_epochs=num_epochs,
-        callbacks="evaluation",
-        callback_kwargs=dict(
-            evaluator=valid_evaluator,
-            evaluation_triples=dataset.validation.mapped_triples,
-            prefix="validation",
-            frequency=1,
-            additional_filter_triples=dataset.training.mapped_triples,
-        ),
+#         callbacks="evaluation",
+#         callback_kwargs=dict(
+#             evaluator=valid_evaluator,
+#             evaluation_triples=dataset.validation.mapped_triples,
+#             prefix="validation",
+#             frequency=1,
+#             additional_filter_triples=dataset.training.mapped_triples,
+#         ),
         stopper = stopper
         
     )
