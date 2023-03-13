@@ -38,7 +38,7 @@ from typing_extensions import Literal
 import os
 from pykeen.hpo import hpo_pipeline
 from pykeen.triples import TriplesFactory
-from pykeen.models import InductiveNodePiece, TransE
+from pykeen.models import InductiveNodePiece, TransE, RGCN, NodePiece
 from pykeen.typing import TESTING, TRAINING, VALIDATION
 
 import time
@@ -91,7 +91,7 @@ dataset = PathDataset(training_path = TRAIN_PATH,
 # In[8]:
 
 
-model_name = 'transE_transductive'
+model_name = 'nodepiece_transductive'
 
 
 # In[9]:
@@ -105,12 +105,13 @@ tracker = ConsoleResultTracker()
 
 loss = NSSALoss() #used by RotatE and NodePiece
 embedding_dim = 200
+num_tokens = 20
 
 
 # In[11]:
 
 
-model = TransE(
+model = NodePiece(
         triples_factory=dataset.training,
         random_seed = seed,
         loss = loss,
@@ -317,6 +318,7 @@ infodict['GPU'] = gpu_names[0]
 
 
 infodict['loss'] = NSSALoss
+infodict['num_tokens'] = num_tokens
 infodict['embedding_dim'] = embedding_dim
 infodict['learning_rate'] = learning_rate
 infodict['optimizer'] = Adam

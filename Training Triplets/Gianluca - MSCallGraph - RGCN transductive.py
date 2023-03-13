@@ -38,7 +38,7 @@ from typing_extensions import Literal
 import os
 from pykeen.hpo import hpo_pipeline
 from pykeen.triples import TriplesFactory
-from pykeen.models import InductiveNodePiece, TransE
+from pykeen.models import InductiveNodePiece, TransE, RGCN
 from pykeen.typing import TESTING, TRAINING, VALIDATION
 
 import time
@@ -91,7 +91,7 @@ dataset = PathDataset(training_path = TRAIN_PATH,
 # In[8]:
 
 
-model_name = 'transE_transductive'
+model_name = 'rgcn_transductive'
 
 
 # In[9]:
@@ -110,7 +110,7 @@ embedding_dim = 200
 # In[11]:
 
 
-model = TransE(
+model = RGCN(
         triples_factory=dataset.training,
         random_seed = seed,
         loss = loss,
