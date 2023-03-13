@@ -137,7 +137,7 @@ else:
 
 learning_rate = 1e-3
 optimizer = Adam(params=model.parameters(), lr=learning_rate)
-num_epochs = 200
+num_epochs = 2000
 patience = 20
 
 
