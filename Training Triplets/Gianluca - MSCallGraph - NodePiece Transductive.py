@@ -58,7 +58,7 @@ import zipfile
 seed = 1234
 
 
-# In[3]:
+# In[2]:
 
 
 def show_metrics(dictionary,model_name,csv_name):
@@ -69,7 +69,7 @@ def show_metrics(dictionary,model_name,csv_name):
         print(df)
 
 
-# In[4]:
+# In[3]:
 
 
 DATA_TYPE = "_transductive.tsv"
@@ -78,13 +78,14 @@ TEST_PATH = "MSCallGraph_test" + DATA_TYPE
 VALIDATE_PATH = "MSCallGraph_validation" + DATA_TYPE
 
 
-# In[7]:
+# In[4]:
 
 
 dataset = PathDataset(training_path = TRAIN_PATH,
                      testing_path = TEST_PATH,
                      validation_path = VALIDATE_PATH,
-                      eager = True
+                     eager = True,
+                     create_inverse_triples = True
                      )
 
 
