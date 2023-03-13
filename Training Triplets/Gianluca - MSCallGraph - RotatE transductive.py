@@ -135,7 +135,7 @@ else:
 # In[13]:
 
 
-learning_rate = 1e-4 #1e-3, 5e-3 and 1e-2 stops after 20 iterations and actually does not reduce the error too much
+learning_rate = 5e-2 #1e-3, and 1e-4 stops after 20 iterations and actually does not reduce the error too much
 optimizer = Adam(params=model.parameters(), lr=learning_rate)
 num_epochs = 2000
 patience = 20
