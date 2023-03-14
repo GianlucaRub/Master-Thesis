@@ -105,7 +105,7 @@ tracker = ConsoleResultTracker()
 
 loss = NSSALoss() #used by RotatE and NodePiece
 embedding_dim = 200
-batch_size = 32
+batch_size = 512
 
 
 # In[8]:
