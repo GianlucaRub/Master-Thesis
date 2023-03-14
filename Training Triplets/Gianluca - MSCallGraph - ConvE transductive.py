@@ -84,7 +84,8 @@ VALIDATE_PATH = "MSCallGraph_validation" + DATA_TYPE
 dataset = PathDataset(training_path = TRAIN_PATH,
                      testing_path = TEST_PATH,
                      validation_path = VALIDATE_PATH,
-                      eager = True
+                      eager = True,
+                     create_inverse_triples = True
                      )
 
 
