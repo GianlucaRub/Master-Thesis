@@ -13,10 +13,6 @@ import joblib
 import zipfile
 from tqdm import tqdm
 import contextlib
-import asposecells
-import jpype
-jpype.startJVM()
-from asposecells.api import Workbook, FileFormatType
 
 seed = 1234
 
@@ -38,13 +34,6 @@ seed = 1234
 
 complete_df = pd.read_csv('MSCallGraph_joined_reduced.csv').drop(['Unnamed: 0'],axis=1)
 complete_df
-
-
-# In[4]:
-
-
-# triplets_df = complete_df.drop(['traceid'],axis=1)
-# triplets_df
 
 
 # In[5]:
@@ -137,13 +126,6 @@ test_traces = list(set(test_traces_df['traceid']))
 len(test_traces)
 
 
-# In[17]:
-
-
-# complete_test_traces_df = complete_df[complete_df['traceid'].isin(test_traces)].drop(columns=['um','rpctype','dm'],axis=1)
-# complete_test_traces_df
-
-
 # In[18]:
 
 
@@ -168,20 +150,6 @@ def create_train_test_trace(complete_df, trace):
     trace_test_df = trace_triplets_df.drop(trace_train_df.index) 
 
     return trace_train_df, trace_test_df
-
-
-# In[19]:
-
-
-# trace_train_df_list = []
-# trace_test_df_list = [] 
-# trace_id_list = []
-# for trace in test_traces:
-#     train_df, test_df = create_train_test_trace(complete_df, trace)
-#     if len(test_df) > 0:
-#         trace_train_df_list.append(train_df)
-#         trace_test_df_list.append(test_df)
-#         trace_id_list.append(trace)
 
 
 # In[20]:
@@ -248,36 +216,10 @@ def create_triplets(df):
 
 
 def create_tsv(triplets, file_name):
-
-
-    # Create Workbook object.
-    workbook = Workbook(FileFormatType.TSV)
-
-    # Access the first worksheet of the workbook.
-    worksheet = workbook.getWorksheets().get(0)
-
-    # Get the desired cell(s) of the worksheet and input the value into the cell(s).
-
-
-    i = 1
-    for elem in triplets: 
-        worksheet.getCells().get("A"+str(i)).putValue(elem[0])
-        worksheet.getCells().get("B"+str(i)).putValue(elem[1])
-        worksheet.getCells().get("C"+str(i)).putValue(elem[2])
-        i+=1
-
-
-    # Save the workbook as TSV file.
-    workbook.save(file_name)
-
-
-    file = open(file_name,'r')  
-    lines = file.readlines()  
-    file.close()
-    file = open(file_name,'w')  
-    lines = lines[:-1]
-    file.writelines(lines)
-    file.close()
+    with open(file_name, 'w') as file:
+        for elem in triplets: 
+            file.write(f'{elem[0]}    {elem[1]}    {elem[2]}\n')
+        file.close()
 
 
 # In[24]:
@@ -310,25 +252,19 @@ else:
 # In[26]:
 
 
-with tqdm(desc="writing train tsv", total=len(trace_id_list)):
+with tqdm(desc="writing train tsv", total=len(trace_id_list)) as progress_bar:
     for elem in zip(trace_train_df_list,trace_id_list):
         create_tsv(create_triplets(elem[0]),f"MSCallGraph_traces/train/{elem[1]}_transductive_train.tsv")
-        tqdm.update(1)
+        progress_bar.update(1)
 
 
 # In[27]:
 
 
-with tqdm(desc="writing test tsv", total=len(trace_id_list)):  
+with tqdm(desc="writing test tsv", total=len(trace_id_list)) as progress_bar:  
     for elem in zip(trace_test_df_list,trace_id_list):
         create_tsv(create_triplets(elem[0]),f"MSCallGraph_traces/test/{elem[1]}_transductive_test.tsv")
-        tqdm.update(1)
-
-
-# In[28]:
-
-
-jpype.shutdownJVM()
+        progress_bar.update(1)
 
 
 # In[29]:
