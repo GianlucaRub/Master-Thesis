@@ -152,51 +152,20 @@ def create_train_test_trace(complete_df, trace):
     return trace_train_df, trace_test_df
 
 
-# In[20]:
-
-
-@contextlib.contextmanager
-def tqdm_joblib(tqdm_object):
-    """Context manager to patch joblib to report into tqdm progress bar given as argument"""
-    class TqdmBatchCompletionCallback(joblib.parallel.BatchCompletionCallBack):
-        def __call__(self, *args, **kwargs):
-            tqdm_object.update(n=self.batch_size)
-            return super().__call__(*args, **kwargs)
-
-    old_batch_callback = joblib.parallel.BatchCompletionCallBack
-    joblib.parallel.BatchCompletionCallBack = TqdmBatchCompletionCallback
-    try:
-        yield tqdm_object
-    finally:
-        joblib.parallel.BatchCompletionCallBack = old_batch_callback
-        tqdm_object.close()
-
-
 # In[21]:
 
 
 trace_train_df_list = []
 trace_test_df_list = [] 
 trace_id_list = []
-
-def process_trace(trace):
-    train_df, test_df = create_train_test_trace(complete_df, trace)
-    if len(test_df) > 0:
-        return (train_df, test_df, trace)
-    else:
-        return None
-
-with tqdm_joblib(tqdm(desc="processing traces", total=len(test_traces))) as progress_bar:
-    results = joblib.Parallel(n_jobs=-1)(
-    joblib.delayed(process_trace)(trace) for trace in test_traces
-)
-
-for result in results:
-    if result is not None:
-        train_df, test_df, trace = result
-        trace_train_df_list.append(train_df)
-        trace_test_df_list.append(test_df)
-        trace_id_list.append(trace)
+with tqdm(desc="processing traces", total=len(trace_id_list)) as progress_bar:
+    for trace in test_traces:
+        train_df, test_df = create_train_test_trace(complete_df, trace)
+        progress_bar.update(1)
+        if len(test_df) > 0:
+            trace_train_df_list.append(train_df)
+            trace_test_df_list.append(test_df)
+            trace_id_list.append(trace)
 
 
 # In[22]:
