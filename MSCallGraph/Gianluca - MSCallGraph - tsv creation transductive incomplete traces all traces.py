@@ -16,6 +16,7 @@ import contextlib
 import asposecells
 import jpype
 from asposecells.api import Workbook, FileFormatType
+jpype.startJVM()
 
 seed = 1234
 
@@ -244,9 +245,6 @@ def create_triplets(df):
 
 
 # In[23]:
-
-
-jpype.startJVM()
 
 
 def create_tsv(triplets, file_name):
