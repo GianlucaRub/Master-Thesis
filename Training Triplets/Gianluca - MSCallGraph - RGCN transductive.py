@@ -215,6 +215,13 @@ train_epoch =  training_loop.train(
 training_duration = time.time() - training_start
 
 
+# In[ ]:
+
+
+torch.save(model,f"{model_name}/model.pth")
+model = torch.load(f"{model_name}/model.pth")
+
+
 # In[18]:
 
 

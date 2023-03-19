@@ -221,6 +221,13 @@ training_duration = time.time() - training_start
 # In[ ]:
 
 
+torch.save(model,f"{model_name}/model.pth")
+model = torch.load(f"{model_name}/model.pth")
+
+
+# In[ ]:
+
+
 print("Train error per epoch:")
 df = pd.DataFrame(train_epoch)
 print(df)
