@@ -32,7 +32,7 @@ seed = 1234
 # In[3]:
 
 
-complete_df = pd.read_csv('MSCallGraph_joined_reduced.csv').drop(['Unnamed: 0'],axis=1)
+complete_df = pd.read_csv('MSCallGraph_joined_reduced.csv')
 complete_df
 
 
