@@ -3,7 +3,7 @@
 
 # I am creating a single trace in a transductive setting, where the train part of the trace dataset contains all the entities and relations
 
-# In[1]:
+# In[2]:
 
 
 import pandas as pd
@@ -15,8 +15,8 @@ from tqdm import tqdm
 import contextlib
 import asposecells
 import jpype
-from asposecells.api import Workbook, FileFormatType
 jpype.startJVM()
+from asposecells.api import Workbook, FileFormatType
 
 seed = 1234
 
