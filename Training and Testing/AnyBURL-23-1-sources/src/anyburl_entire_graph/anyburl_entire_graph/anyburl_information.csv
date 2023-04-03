@@ -1,0 +1,12 @@
+,name,value
+0,parameters bytes,1000000000.0
+1,number parameters,377728
+2,training duration,100
+3,testing evaluation duration,53.59509992599487
+4,Operating system name,Linux
+5,Operating system version,3.10.0-1160.88.1.el7.x86_64
+6,Processor architecture,x86_64
+7,Python version,"3.10.9 (main, Mar  8 2023, 10:47:38) [GCC 11.2.0]"
+8,Processor model name,Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz
+9,Number cpu cores,32
+10,Total physical memory,99980713984
