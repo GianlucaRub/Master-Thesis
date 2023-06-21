@@ -1,0 +1,2 @@
+The reduced dataset obtained has been used to create the trace test dataset.
+However, by removing the "traceid" column and then removing the duplicates, it is possible to obtain the dataset that can be split in training and testing as it happens for the traditional prediction scenario.
