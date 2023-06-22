@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="social-network">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Vasia Dataset/social-network.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

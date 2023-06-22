@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Testing Traces">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Training and Testing/Sampling/Testing Traces/rotatE_transductive_sampling_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/Sampling/Testing Traces/MSCallGraph_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/Sampling/Testing Traces/rotatE_transductive_sampling.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

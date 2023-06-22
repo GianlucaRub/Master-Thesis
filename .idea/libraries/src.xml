@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="src">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Training and Testing/AnyBURL-23-1-sources/src/anyburl_pretrained_io_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/AnyBURL-23-1-sources/src/anyburl_entire_graph.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/AnyBURL-23-1-sources/src/anyburl_io_entire_graph.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/AnyBURL-23-1-sources/src/anyburl_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/AnyBURL-23-1-sources/src/anyburl_pretrained_testing_traces.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

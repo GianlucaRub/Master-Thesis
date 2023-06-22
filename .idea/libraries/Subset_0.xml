@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Subset 0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Training and Testing/Subset 0/convE_0_transductive.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/Subset 0/quatE_0_transductive.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/Subset 0/nodepiece_0_inductive.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/Subset 0/rotatE_0_transductive.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/Subset 0/nodepiece_0_transductive.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/Subset 0/tuckER_0_transductive.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/Subset 0/nodepiece_0_transductive_2.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/Subset 0/nodepiece_0_inductive_2.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/Subset 0/rgcn_0_transductive.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

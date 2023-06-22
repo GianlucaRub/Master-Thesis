@@ -1,0 +1,25 @@
+<component name="libraryTable">
+  <library name="All data">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/nodepiece_inductive.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/convE_transductive.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/rgcn_transductive_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/nodepiece_transductive_2_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/tuckER_transductive_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/rotatE_transductive_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/nodepiece_inductive_2_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/nodepiece_transductive_2.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/tuckER_transductive.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/rgcn_transductive.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/nodepiece_inductive_2.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/quatE_transductive.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/convE_transductive_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/rotatE_transductive.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/MSCallGraph_joined.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/quatE_transductive_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/nodepiece_transductive.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

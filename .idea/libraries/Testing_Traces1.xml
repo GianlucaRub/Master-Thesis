@@ -1,0 +1,33 @@
+<component name="libraryTable">
+  <library name="Testing Traces1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/MSCallGraph_traces_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/rotatE_transductive_io_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/tuckER_transductive_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/topology_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/nodepiece_transductive_2.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/topology_connected_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/tuckER_transductive_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/rotatE_transductive_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/convE_transductive_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/rgcn_transductive_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/rgcn_transductive_io_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/quatE_transductive_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/quatE_transductive_io_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/MSCallGraph_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/nodepiece_transductive_2_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/rotatE_transductive_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/nodepiece_inductive_2_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/rgcn_transductive_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/nodepiece_transductive_2_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/tuckER_transductive_io_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/quatE_transductive_io.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/convE_transductive_io_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/convE_transductive_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/nodepiece_transductive_2_io_testing_traces.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Training and Testing/All data/Testing Traces/nodepiece_transductive_testing_traces.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

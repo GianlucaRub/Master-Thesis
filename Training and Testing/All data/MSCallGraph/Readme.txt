@@ -1,1 +1,2 @@
-In this folder there is the filtered dataset. It has tuples of traceid, um, dm, and rpctype, but the triplets are unique
+In this folder there is the filtered dataset. It has tuples of traceid, um, dm, and rpctype, but the triplets are unique.
+This intermediate stage of data, has been successively aggregated and converted into tsv files that can be used for training and testing with the static modelling.
